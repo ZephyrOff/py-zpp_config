@@ -385,33 +385,3 @@ class Config():
 									dict_data[sec] = {}
 								dict_data[sec][line[0]] = self.return_data(line[1])
 		return dict_data
-
-
-#c = Config("conf.dat",auto_create=True)
-c = Config("conf.dat",read_only=True)
-#c.add(val="test4",key=5,section="f_section")
-#d = c.list_section()
-#print(d)
-#d = c.load(val="conf",section="second_section")
-#print(d)
-#d = c.load(section='section')
-#print(d)
-#c.change(val="conf",key="NULL",section="second_section")
-
-#d = c.load(section='second_section',val='conf')
-#print(d)
-#d = c.disabled_line()
-#print(d)
-#c.delete(section="f_section")
-
-
-'''
-list_section(self)
-load(self,val=None,section=None)
-change(self,val=None,key=None,section=None)
-add(self,val=None,key=None,section=None)
-delete(self,val=None,section=None)
-disabled_line(self, section=None)
-'''
-
-#read-only
