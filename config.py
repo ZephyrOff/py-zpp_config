@@ -5,10 +5,10 @@
 #/ Fichier annexe:                                                /#
 #/                                                                /#
 #/ Auteur: ZephyrOff  (Alexandre Pajak)                           /#
-#/ Version: 1.0                                                   /#
+#/ Version: 1.1                                                   /#
 #/ Description: Module pour le chargement et la modification      /#
 #/              de fichier de configuration                       /#
-#/ Date: 01/06/2022                                               /#
+#/ Date: 10/08/2022                                               /#
 ####################################################################
 
 import re
@@ -31,8 +31,7 @@ class Config():
 			if auto_create==False:
 				print("Error: File not exists")
 			else:
-				with open(file,'w') as f:
-					self.file = file
+				self.file = file
 
 	#Str to real type
 	def return_data(self, data):
@@ -76,7 +75,7 @@ class Config():
 				return sec_array
 
 
-	def load(self,val=None,section=None):
+	def load(self,val=None,section=None,default=None):
 		lock=False
 		ban = False
 		data = []
@@ -141,13 +140,13 @@ class Config():
 
 							else:
 								if len(line)!=0:
-									if sec not in dict_data.keys():
-										dict_data[sec] = {}
 									if not re.match(self.reg,line):
 										line = line.split(self.separator)
 										dict_data[sec][line[0]] = self.return_data(line[1])
 									else:
 										sec = line.replace("[","").replace("]","")
+										if sec not in dict_data.keys():
+											dict_data[sec] = {}
 
 				if val==None and section==None:
 					return dict_data
@@ -155,10 +154,21 @@ class Config():
 				if len(data)!=0:
 					for element in data:
 						element=element.split(self.separator)
-						dict_data[element[0]] = self.return_data(element[1])
-					return dict_data
+						if len(element)>1:
+							dict_data[element[0]] = self.return_data(element[1])
 
-				return data
+					if dict_data=={} and default!=None:
+						return default
+					else:
+						return dict_data
+						
+				if data==[] and default!=None:
+					return default
+				else:
+					return data
+		
+		if default!=None:
+			return default
 
 
 	def edit(self,line,val,key,temp):
@@ -238,7 +248,7 @@ class Config():
 							new_content+="\n"+val+self.separator+str(key)
 
 					else:
-						data = c.load()
+						data = self.load()
 						if section!=None:
 							se_test = section
 						else:

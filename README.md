@@ -78,6 +78,9 @@ data = c.load(val='value_name')
 data = c.load(val='value_name', section='section_name')
 ```
 
+>En paramètre supplémentaire, nous pouvons mettre:<br/>
+>- default: Pour initialiser une valeur par défaut si aucun résultat est trouvé 
+
 <br>
 
 ### Changement de paramètre
