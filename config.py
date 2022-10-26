@@ -5,7 +5,7 @@
 #/ Fichier annexe:                                                /#
 #/                                                                /#
 #/ Auteur: ZephyrOff  (Alexandre Pajak)                           /#
-#/ Version: 1.1                                                   /#
+#/ Version: 1.1.1                                                 /#
 #/ Description: Module pour le chargement et la modification      /#
 #/              de fichier de configuration                       /#
 #/ Date: 10/08/2022                                               /#
@@ -48,20 +48,8 @@ class Config():
 
 	def indent_line(self,line):
 		lineC = line.replace("\t","")
-		line = ""
-		l = ""
-		for i, char in enumerate(lineC):
-			if (char=="'" and lineC.count("'")%2==0) or (char=='"' and lineC.count('"')%2==0):
-				if l==char:
-					l=""
-				else:
-					l=char
-			else:
-				if len(l)==0 and i+1<len(lineC) and lineC[i]==" " and lineC[i+1]==" ":
-					pass
-				else:
-					line+=char
-		return line
+
+		return lineC
 
 
 	def list_section(self):
