@@ -5,10 +5,10 @@
 #/ Fichier annexe:                                                /#
 #/                                                                /#
 #/ Auteur: ZephyrOff  (Alexandre Pajak)                           /#
-#/ Version: 1.1.1                                                 /#
+#/ Version: 1.2.0                                                 /#
 #/ Description: Module pour le chargement et la modification      /#
 #/              de fichier de configuration                       /#
-#/ Date: 10/08/2022                                               /#
+#/ Date: 14/02/2023                                               /#
 ####################################################################
 
 import re
@@ -130,6 +130,8 @@ class Config():
 								if len(line)!=0:
 									if not re.match(self.reg,line):
 										line = line.split(self.separator)
+										if sec=='' and sec not in dict_data:
+											dict_data[sec] = {}	
 										dict_data[sec][line[0]] = self.return_data(line[1])
 									else:
 										sec = line.replace("[","").replace("]","")
@@ -138,6 +140,7 @@ class Config():
 
 				if val==None and section==None:
 					return dict_data
+
 
 				if len(data)!=0:
 					for element in data:
@@ -383,3 +386,105 @@ class Config():
 									dict_data[sec] = {}
 								dict_data[sec][line[0]] = self.return_data(line[1])
 		return dict_data
+
+	def disable(self,val=None,section=None):
+		if self.read_only==False:
+			if val!=None:
+				if hasattr(self,'file'):
+					modified = False
+					with open(self.file) as f:
+						self.new_content = []
+						lock=False
+
+						for line in f.readlines():
+							temp = line.rstrip()
+							line = self.indent_line(line.strip())
+							if len(line)!=0:
+								if section!=None:
+									if section!="" and re.match(self.reg,line):
+										if lock==False:
+											if line=="["+section+"]":
+												lock=True
+										else:
+											lock=False
+									else:
+										if lock==True:
+											lineT = line.split(self.separator)
+											if lineT[0]==val:
+												modified = True
+												self.new_content.append("#"+line)
+											else:
+												self.new_content.append(line)
+											continue
+								else:
+									lineT = line.split(self.separator)
+									if lineT[0]==val:
+										modified = True
+										self.new_content.append("#"+line)
+									else:
+										self.new_content.append(line)
+									continue
+								self.new_content.append(temp)
+							else:
+								self.new_content.append(temp)
+					
+					if modified:
+						with open(self.file,"w") as f:
+							f.write("\n".join(self.new_content))
+						return True
+					return False
+		else:
+			print("Read-only mode")
+			return False
+
+
+	def enable(self,val=None,section=None):
+		if self.read_only==False:
+			if val!=None:
+				val = "#"+val
+				if hasattr(self,'file'):
+					modified = False
+					with open(self.file) as f:
+						self.new_content = []
+						lock=False
+
+						for line in f.readlines():
+							temp = line.rstrip()
+							line = self.indent_line(line.strip())
+							if len(line)!=0:
+								if section!=None:
+									if section!="" and re.match(self.reg,line):
+										if lock==False:
+											if line=="["+section+"]":
+												lock=True
+										else:
+											lock=False
+									else:
+										if lock==True:
+											lineT = line.split(self.separator)
+											if lineT[0]==val:
+												modified = True
+												self.new_content.append(line[1:])
+											else:
+												self.new_content.append(line)
+											continue
+								else:
+									lineT = line.split(self.separator)
+									if lineT[0]==val:
+										modified = True
+										self.new_content.append(line[1:])
+									else:
+										self.new_content.append(line)
+									continue
+								self.new_content.append(temp)
+							else:
+								self.new_content.append(temp)
+					
+					if modified:
+						with open(self.file,"w") as f:
+							f.write("\n".join(self.new_content))
+						return True
+					return False
+		else:
+			print("Read-only mode")
+			return False
