@@ -1,0 +1,44 @@
+[project]
+name = "zpp_config"
+version = "1.2.4"
+description = "Module pour le chargement et la modification de fichier de configuration"
+mainfile = "__init__.py"
+requires-python = ">=3.6"
+
+[project.metadata]
+authors = ["ZephyrOff"]
+maintainers = []
+readme = "README.md"
+license = "MIT License"
+license_file = "LICENSE"
+keywords = ["config file", "terminal", "zephyroff"]
+classifiers = ["Development Status :: 5 - Production/Stable", "Environment :: Console", "License :: OSI Approved :: MIT License", "Programming Language :: Python :: 3"]
+copyright = ""
+changelog = "changelog.md"
+
+[project.urls]
+changelog = ""
+homepage = "https://github.com/ZephyrOff/py-zpp_config"
+documentation = "https://github.com/ZephyrOff/py-zpp_config"
+
+[project.dependencies]
+
+[project.dependencies.windows]
+
+[project.dependencies.linux]
+
+[project.build]
+packages = ["re", "ast", "os"]
+includes = ["config"]
+excludes = []
+include_files = []
+optimize = 0
+no_compress = false
+GUI = false
+icon = ""
+
+[project.wheel]
+platforms = "ALL"
+
+[project.wheel.entry_points]
+console_scripts = []

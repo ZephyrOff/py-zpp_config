@@ -1,4 +1,4 @@
-# :wrench: zpp-config
+# zpp-config
 ## Informations
 Librairie pour l'utilisation et la modification de fichier de configuration:<br>
 - Charger un ou plusieurs paramètres
@@ -80,6 +80,7 @@ data = c.load(val='value_name', section='section_name')
 
 >En paramètre supplémentaire, nous pouvons mettre:<br/>
 >- default: Pour initialiser une valeur par défaut si aucun résultat est trouvé 
+
 
 <br>
 

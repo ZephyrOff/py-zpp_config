@@ -1,16 +1,3 @@
-####################################################################
-#/ Nom du projet: py-zpp_config                                   /#
-#/ Nom du fichier: config.py                                      /#
-#/ Type de fichier: fichier principal                             /#
-#/ Fichier annexe:                                                /#
-#/                                                                /#
-#/ Auteur: ZephyrOff  (Alexandre Pajak)                           /#
-#/ Version: 1.2.0                                                 /#
-#/ Description: Module pour le chargement et la modification      /#
-#/              de fichier de configuration                       /#
-#/ Date: 14/02/2023                                               /#
-####################################################################
-
 import re
 import ast
 from os.path import isfile, exists
@@ -24,6 +11,7 @@ class Config():
 		self.escape_line = escape_line
 
 		self.read_only = read_only
+		self.created = False
 
 		if isfile(file) and exists(file):
 			self.file = file
@@ -32,6 +20,9 @@ class Config():
 				print("Error: File not exists")
 			else:
 				self.file = file
+				with open(self.file, 'a') as f:
+					pass
+				self.created = True
 
 	#Str to real type
 	def return_data(self, data):
@@ -220,6 +211,9 @@ class Config():
 			new_content=None
 			lock=False
 
+			if key=="":
+				key = '""'
+
 			if hasattr(self,'file'):
 				if section!=None and section!="" and section not in self.list_section():
 					exist = False
@@ -231,15 +225,21 @@ class Config():
 				with open(self.file) as f:
 					if exist==False:
 						new_content=f.read()
-						if new_content[len(new_content)-1]=="\n":
-							new_content+="\n["+section+"]"
+						if len(new_content):
+							if new_content[len(new_content)-1]=="\n":
+								new_content+="\n["+section+"]"
+							else:
+								new_content+="\n\n["+section+"]"
 						else:
-							new_content+="\n\n["+section+"]"
+							new_content="["+section+"]"							
+						
 						if val!=None and val!="" and key!=None:
 							new_content+="\n"+val+self.separator+str(key)
 
 					else:
 						data = self.load()
+						if not len(data):
+							data = {"":{}}
 						if section!=None:
 							se_test = section
 						else:
