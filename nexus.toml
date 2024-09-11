@@ -1,6 +1,6 @@
 [project]
 name = "zpp_config"
-version = "1.2.4"
+version = "1.2.5"
 description = "Module pour le chargement et la modification de fichier de configuration"
 mainfile = "__init__.py"
 requires-python = ">=3.6"
@@ -18,8 +18,8 @@ changelog = "changelog.md"
 
 [project.urls]
 changelog = ""
-homepage = "https://github.com/ZephyrOff/py-zpp_config"
-documentation = "https://github.com/ZephyrOff/py-zpp_config"
+homepage = "https://github.com/ZephyrOff/zpp_config"
+documentation = "https://github.com/ZephyrOff/zpp_config"
 
 [project.dependencies]
 

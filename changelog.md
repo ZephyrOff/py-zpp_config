@@ -8,3 +8,6 @@
 
 ## [1.2.4] - 2024-08-16
 - Correction sur les créations de clés sur fichier vide
+
+## [1.2.5] - 2024-09-11
+- Migrate repo
